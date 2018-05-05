@@ -1,9 +1,11 @@
 pragma solidity ^0.4.18;
 
+import './ERC20.sol';
+
 /// @title BUM Token
 /// @author Hung Tran <nguyentieuhau@gmail.com>
 /// @dev Very basic Ethereum token for learning purpose. Use this at your own risk.
-contract BumToken {
+contract BumToken is ERC20 {
   /// @dev Token's name.
   string public name;
 
@@ -47,7 +49,7 @@ contract BumToken {
   /// @dev Send token to another user.
   /// @param _to Address of recipient.
   /// @param _value  Amount to send.
-  function transfer(address _to, uint256 _value) public {
+  function transfer(address _to, uint256 _value) public returns (bool) {
     // Prevent transtering to 0x0 address. Use burn() instead.
     require(_to != 0x0);
 
@@ -70,6 +72,8 @@ contract BumToken {
 
     // Assert for static analysis to find bugs. This should never fail.
     assert(balanceOf[msg.sender] + balanceOf[_to] == previousBalances);
+
+    return true;
   }
 
   /// @dev Burn tokens.
